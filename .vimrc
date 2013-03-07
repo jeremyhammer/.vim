@@ -149,3 +149,4 @@ vmap P "_dP
 "vmap <C-w> :tabclose<Enter>
 
 autocmd VimEnter * set vb t_vb=
+autocmd BufNewFile,BufRead *.json set ft=javascript
