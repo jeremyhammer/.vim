@@ -3,29 +3,51 @@ call pathogen#infect()
 
 """"""""""""""'
 " Misc stuff
-set exrc						"Make sure we run the vimrc
-set secure						"don't allow commandline executin in vimrc
-set nocompatible				"all vim features!
-set showcmd						"show commands in statusline
-set nonumber					"no line numbers at first
-"set fileformats=unix			" I want to see those ^M if I'm editing a dos file
-set confirm						"Tell me if something fucks up
-set visualbell t_vb=			"Don't ring any bells
-set mouse=a						"Use the mouse in all modes
-set title						"Let VIM manage the term title
-set titlestring=%t\ %y\ %r\ %m	"Set a useful term title			
-set titleold=Terminal			"Get rid of that stupid flying message
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc 		"Don't tab complete this much
-set viminfo='20,\"50
-set nu
-set smd
-set fmr={,}
-set fdm=marker
-set nofen
-"set tags=tags;~/dev/drit/tags
-
+set exrc                        "Make sure we run the vimrc
+set secure                      "don't allow commandline executin in vimrc
+set nocompatible                "all vim features!
+set showcmd                     "show commands in statusline
+set nonumber                    "no line numbers at first
+"set fileformats=unix           " I want to see those ^M if I'm editing a dos file
+set confirm                     "Tell me if something fucks up
+set visualbell t_vb=            "Don't ring any bells
+set mouse=a                     "Use the mouse in all modes
+set title                       "Let VIM manage the term title
+set titlestring=%t\ %y\ %r\ %m  "Set a useful term title            
+set titleold=Terminal           "Get rid of that stupid flying message
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc       "Don't tab complete this much
+set viminfo='20,\"50            "How much history/marks to store in viminfo
+set number                      "Show line numbers
+set showmode                    "Show editing mode in status bar
+set fmr={,}                     "Fold marker
+set fdm=marker                  "Fold method
+set nofen                       "But disable folding by default
+set path=.
+"lots of speed up, but no guarentees the file is actually on disk at exit
+set nofsync
+set ttyfast
+set noruler
+set laststatus=2
+set whichwrap=b,s,h,l,<,>,[,]
+set history=1000
 set wildmode=longest,list,full
 set wildmenu
+set scrolljump=1
+set scrolloff=3
+set gdefault
+
+"need to patch my font for this to work
+"let g:Powerline_symbols = 'fancy'
+
+call pathogen#infect()
+
+" when pasting don't replace yank buffer with what you have highlighted
+vmap p "_dP
+vmap P "_dP
+
+" on space dehighlight
+noremap <silent> <Space> :silent noh<Bar>echo<CR>
+
 
 " buffer switching
 nmap <silent> <F9> :bn <CR>
@@ -41,29 +63,27 @@ nmap <silent> <F6> :!cscope -bR <CR> :cscope reset <CR>
 " Text Formatting
 """"""""""""""""""
 
-set autoindent			"Auto indenting
-set cindent 			"auto un-indent close brackets
-set cinoptions=>4		"one tab only
-set tabstop=4			"Tab width
-set softtabstop=4		"Soft tabstop
-set shiftwidth=4		"how much to shift text when formatting
-set backspace=2			"backspace over every thing
-set textwidth=78		"Text width
-set showmatch			"Blink to show the {} and () matches
-set matchtime=3			"make it a quick blink though
-set formatoptions=crq2	"Do some neat comment stuff for us
-set expandtab
-syntax on				"Do Syntax hilighting 
+set autoindent          "Auto indenting
+set cindent             "auto un-indent close brackets
+set cinoptions=>4       "one tab only
+set tabstop=4           "Tab width
+set softtabstop=4       "Soft tabstop
+set shiftwidth=4        "how much to shift text when formatting
+set backspace=2         "backspace over every thing
+set textwidth=78        "Text width
+set showmatch           "Blink to show the {} and () matches
+set matchtime=3         "make it a quick blink though
+set formatoptions=crq2  "Do some neat comment stuff for us
+set expandtab           "Expand tabs to spaces
+autocmd FileType make setlocal noexpandtab
+syntax on               "Do Syntax hilighting 
 
 """"""""""""
 "Searching stuff
-"set nohlsearch		"Don't hilight searches, man, I hate that
-set ignorecase		"for pattern matching
-set smartcase		"if I use uppercase, match case sensitive
-set incsearch		"show us matches immeadiatly
-
-" on space dehighlight
-noremap <silent> <Space> :silent noh<Bar>echo<CR>
+set hlsearch        "highlight search matches
+set ignorecase      "for pattern matching
+set smartcase       "if I use uppercase, match case sensitive
+set incsearch       "show us matches immeadiatly
 
 
 """""""""""""""
@@ -137,16 +157,21 @@ augroup END
 command! Wires s/^\(\s*\)\.\?\([^,]\+\)\(,\?\)\s*$/\1.\2(\2)\3/g
 vmap p "_dP
 vmap P "_dP
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+
+" Ctrl-L to php syntax check
+autocmd FileType php noremap <C-L> :!php -l %<CR>
 
 " Ctrl-t makes a new tab
 "vmap <C-n> :tabnew<Enter>
 "imap <C-n> :tabnew<Enter>
 "map <C-n> :tabnew<Enter>
 
-" Ctrl-w closes the tab
-"map <C-w> :tabclose<Enter>
-"imap <C-w> :tabclose<Enter>
-"vmap <C-w> :tabclose<Enter>
+" syntastic customizations
+let g:syntastic_php_checkers=['php']
+let g:syntastic_java_checkers=[]
 
 autocmd VimEnter * set vb t_vb=
 autocmd BufNewFile,BufRead *.json set ft=javascript

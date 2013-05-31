@@ -1,14 +1,14 @@
 " Vim global plugin for autoloading cscope databases.
-" Last Change: Mon Jan 28 11:59:05 CST 2002
-" Maintainer: Michael Conrad Tilsra <tadpol@tadpol.org>
-" Revision: 0.3
+" Last Change: Wed Jan 26 10:28:52 Jerusalem Standard Time 2011
+" Maintainer: Michael Conrad Tadpol Tilsra <tadpol@tadpol.org>
+" Revision: 0.5
 
 if exists("loaded_autoload_cscope")
 	finish
 endif
 let loaded_autoload_cscope = 1
 
-" requirements, you must have these enables or this is useless.
+" requirements, you must have these enabled or this is useless.
 if(  !has('cscope') || !has('modify_fname') )
   finish
 endif
@@ -27,11 +27,14 @@ endif
 " windowdir
 "  Gets the directory for the file in the current window
 "  Or the current working dir if there isn't one for the window.
+"  Use tr to allow that other OS paths, too
 function s:windowdir()
   if winbufnr(0) == -1
-    return getcwd()
+    let unislash = getcwd()
+  else 
+    let unislash = fnamemodify(bufname(winbufnr(0)), ':p:h')
   endif
-  return fnamemodify(bufname(winbufnr(0)), ':p:h')
+    return tr(unislash, '\', '/')
 endfunc
 "
 "==
@@ -75,7 +78,7 @@ function s:Cycle_macros_menus()
     let s:menus_loaded = 1
     set csto=0
     set cst
-    silent! map <unique> <C-\>s :cs find c <C-R>=expand("<cword>")<CR><CR>
+    silent! map <unique> <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
     silent! map <unique> <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
     silent! map <unique> <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
     silent! map <unique> <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
@@ -84,21 +87,21 @@ function s:Cycle_macros_menus()
     silent! map <unique> <C-\>f :cs find f <C-R>=expand("<cword>")<CR><CR>
     silent! map <unique> <C-\>i :cs find i <C-R>=expand("<cword>")<CR><CR>
     if has("menu")
-      nmenu &Cscope.Find.Symbol<Tab><c-\>s
+      nmenu &Cscope.Find.Symbol<Tab><c-\\>s
         \ :cs find s <C-R>=expand("<cword>")<CR><CR>
-      nmenu &Cscope.Find.Definition<Tab><c-\>g
+      nmenu &Cscope.Find.Definition<Tab><c-\\>g
         \ :cs find g <C-R>=expand("<cword>")<CR><CR>
-      nmenu &Cscope.Find.Called<Tab><c-\>d
+      nmenu &Cscope.Find.Called<Tab><c-\\>d
         \ :cs find d <C-R>=expand("<cword>")<CR><CR>
-      nmenu &Cscope.Find.Calling<Tab><c-\>c
+      nmenu &Cscope.Find.Calling<Tab><c-\\>c
         \ :cs find c <C-R>=expand("<cword>")<CR><CR>
-      nmenu &Cscope.Find.Assignment<Tab><c-\>t
+      nmenu &Cscope.Find.Assignment<Tab><c-\\>t
         \ :cs find t <C-R>=expand("<cword>")<CR><CR>
-      nmenu &Cscope.Find.Egrep<Tab><c-\>e
+      nmenu &Cscope.Find.Egrep<Tab><c-\\>e
         \ :cs find e <C-R>=expand("<cword>")<CR><CR>
-      nmenu &Cscope.Find.File<Tab><c-\>f
+      nmenu &Cscope.Find.File<Tab><c-\\>f
         \ :cs find f <C-R>=expand("<cword>")<CR><CR>
-      nmenu &Cscope.Find.Including<Tab><c-\>i
+      nmenu &Cscope.Find.Including<Tab><c-\\>i
         \ :cs find i <C-R>=expand("<cword>")<CR><CR>
 "      nmenu &Cscope.Add :cs add 
 "      nmenu &Cscope.Remove  :cs kill 
@@ -142,7 +145,7 @@ endfunc
 "
 "==
 " Cycle_csdb
-"  cycle the loaded csccope db.
+"  cycle the loaded cscope db.
 function s:Cycle_csdb()
     if exists("b:csdbpath")
       if cscope_connection(3, "out", b:csdbpath)
@@ -172,11 +175,15 @@ endfunc
 augroup autoload_cscope
  au!
  au BufEnter *.[chly]  call <SID>Cycle_csdb() | call <SID>Cycle_macros_menus()
- au BufEnter *.php      call <SID>Cycle_csdb() | call <SID>Cycle_macros_menus()
+ au BufEnter *.cc      call <SID>Cycle_csdb() | call <SID>Cycle_macros_menus()
+ au BufEnter *.cpp     call <SID>Cycle_csdb() | call <SID>Cycle_macros_menus()
  au BufEnter *.py      call <SID>Cycle_csdb() | call <SID>Cycle_macros_menus()
+ au BufEnter *.php     call <SID>Cycle_csdb() | call <SID>Cycle_macros_menus()
  au BufUnload *.[chly] call <SID>Unload_csdb() | call <SID>Cycle_macros_menus()
- au BufUnload *.php     call <SID>Unload_csdb() | call <SID>Cycle_macros_menus()
+ au BufUnload *.cc     call <SID>Unload_csdb() | call <SID>Cycle_macros_menus()
+ au BufUnload *.cpp    call <SID>Unload_csdb() | call <SID>Cycle_macros_menus()
  au BufUnload *.py     call <SID>Unload_csdb() | call <SID>Cycle_macros_menus()
+ au BufUnload *.php    call <SID>Unload_csdb() | call <SID>Cycle_macros_menus()
 augroup END
 
 let &cpo = s:save_cpo
