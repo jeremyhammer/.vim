@@ -1,5 +1,5 @@
 
-call pathogen#infect()
+execute pathogen#infect()
 
 """"""""""""""'
 " Misc stuff
@@ -34,7 +34,6 @@ set wildmode=longest,list,full
 set wildmenu
 set scrolljump=1
 set scrolloff=3
-set gdefault
 
 "need to patch my font for this to work
 "let g:Powerline_symbols = 'fancy'
