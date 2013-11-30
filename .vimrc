@@ -1,5 +1,5 @@
 
-execute pathogen#infect()
+call pathogen#infect()
 
 """"""""""""""'
 " Misc stuff
@@ -38,7 +38,6 @@ set scrolloff=3
 "need to patch my font for this to work
 "let g:Powerline_symbols = 'fancy'
 
-call pathogen#infect()
 
 " when pasting don't replace yank buffer with what you have highlighted
 vmap p "_dP
