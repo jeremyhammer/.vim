@@ -1,33 +1,36 @@
 [submodule "bundle/vim-fugitive"]
 	path = bundle/vim-fugitive
-	url = git://github.com/tpope/vim-fugitive.git
+	url = git@github.com:tpope/vim-fugitive.git
 [submodule "bundle/detectindent"]
 	path = bundle/detectindent
-	url = git://github.com/ciaranm/detectindent
+	url = git@github.com:ciaranm/detectindent
 [submodule "bundle/vim-javascript"]
 	path = bundle/vim-javascript
-	url = https://github.com/pangloss/vim-javascript
+	url = git@github.com:pangloss/vim-javascript
 [submodule "bundle/ctrlp.vim"]
 	path = bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
+	url = git@github.com:kien/ctrlp.vim.git
 [submodule "bundle/nerdtree"]
 	path = bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+	url = git@github.com:scrooloose/nerdtree.git
 [submodule "bundle/syntastic.git"]
 	path = bundle/syntastic.git
-	url = https://github.com/scrooloose/syntastic.git
+	url = git@github.com:scrooloose/syntastic.git
 [submodule "bundle/vim-less"]
 	path = bundle/vim-less
-	url = https://github.com/groenewege/vim-less
+	url = git@github.com:groenewege/vim-less
 [submodule "bundle/vim-css3-syntax"]
 	path = bundle/vim-css3-syntax
-	url = https://github.com/hail2u/vim-css3-syntax
+	url = git@github.com:hail2u/vim-css3-syntax
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
-	url = https://github.com/bling/vim-airline
+	url = git@github.com:bling/vim-airline
 [submodule "bundle/tagbar"]
 	path = bundle/tagbar
-	url = git://github.com/majutsushi/tagbar
+	url = git@github.com:majutsushi/tagbar
 [submodule "vim-pathogen"]
 	path = vim-pathogen
-	url = https://github.com/tpope/vim-pathogen.git
+	url = git@github.com:tpope/vim-pathogen.git
+[submodule "bundle/dart-vim-plugin"]
+	path = bundle/dart-vim-plugin
+	url = git@github.com:dart-lang/dart-vim-plugin
